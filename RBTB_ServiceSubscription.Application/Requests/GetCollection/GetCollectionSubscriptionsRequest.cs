@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace RBTB_ServiceSubscription.Application.Requests.GetCollection
 {
-    public record GetCollectionSubscriptionsRequest() : IRequest<GetCollectionSubscriptionsResponse>;
+    public record GetCollectionSubscriptionsRequest(Guid IdUser) : IRequest<GetCollectionSubscriptionsResponse>;
 }

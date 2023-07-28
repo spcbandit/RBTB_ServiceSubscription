@@ -13,6 +13,15 @@ namespace RBTB_ServiceSubscription.Application.Entites
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
         public SubscriptionsType Type { get; set; }
+
+        public string GetSubscriptionTypeName =>
+             this.Type switch
+             {
+                 SubscriptionsType.FirstType => "TestData1",
+                 SubscriptionsType.SecondType => "TestData2",
+                 SubscriptionsType.ThirdType => "TestData3",
+                 _ => throw new NotImplementedException()
+             };
         public DateTime BeginDate { get; set; }
         public DateTime EndDate { get; set; }
         public bool IsActive { get; set; }
@@ -26,6 +35,6 @@ namespace RBTB_ServiceSubscription.Application.Entites
         FirstType,
         SecondType,
         ThirdType
-            //Testing data
+        //Testing data
     }
 }

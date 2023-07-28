@@ -23,11 +23,13 @@ namespace RBTB_ServiceSubscription.Api.Controllers
             _mediator = mediator;
 
         [HttpGet]
-        public async Task<IActionResult> GetSubscriptions()
+        public async Task<IActionResult> GetSubscriptions([FromQuery] Guid IdUser)
         {
-            var collection = await _mediator.Send(new GetCollectionSubscriptionsRequest());
+            var collection = await _mediator.Send(new GetCollectionSubscriptionsRequest(IdUser));
 
-            return Ok(collection);
+            return collection.IsSuccess
+                ? Ok(collection)
+                : BadRequest(collection);
         }
 
         [HttpGet]

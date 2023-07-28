@@ -14,13 +14,24 @@ namespace RBTB_ServiceSubscription.Application.Handlers.Subscription
     public class GetSubscriptionsHandler : IRequestHandler<GetCollectionSubscriptionsRequest, GetCollectionSubscriptionsResponse>
     {
         private readonly IRepository<SubscriptionsEntity> _repository;
+        private readonly IRepository<UsersEntity> _userRepository;
 
-        public GetSubscriptionsHandler(IRepository<SubscriptionsEntity> repository) =>
-            _repository = repository;
+        public GetSubscriptionsHandler(IRepository<SubscriptionsEntity> repository, IRepository<UsersEntity> userRepository) =>
+            (_repository, _userRepository) = (repository, userRepository);
 
         public async Task<GetCollectionSubscriptionsResponse> Handle(GetCollectionSubscriptionsRequest request, CancellationToken cancellationToken)
         {
-            var subscribtionsCollection = _repository.Get().ToList()
+            var selectedUser = _userRepository.FindById(request.IdUser);
+            if (selectedUser == null)
+            {
+                return new GetCollectionSubscriptionsResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "Пользователя с указанным Id не существует."
+                };
+            }
+
+            var subscribtionsCollection = _repository.Get(p => p.IdUser == request.IdUser).ToList()
                 .Select(p => new GetCollectionSubscriptionsId
                 {
                     IdSubscription = p.Id

@@ -36,7 +36,7 @@ namespace RBTB_ServiceSubscription.Application.Handlers.Subscription
                 BeginDate = selectedSubscription.BeginDate,
                 EndDate = selectedSubscription.EndDate,
                 IsActive = selectedSubscription.IsActive,
-                SubscriptionType = (int)selectedSubscription.Type,
+                SubscriptionType = selectedSubscription.GetSubscriptionTypeName,
                 IdUser = selectedSubscription.IdUser
             };
         }
